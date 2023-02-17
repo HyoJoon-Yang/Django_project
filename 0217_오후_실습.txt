@@ -1,19 +1,30 @@
+
+# tag를 클릭하면 post_list를 재활용한 각 태그별 글이 검색되도록(쿼리로 db에서 가져와서 화면에 렌더링되도록) 로직을 짜 주세요. 
+
+# blog/tag/ 여차저차 로 호출하게 합니다.
+# hiphop(3)
+
+# Comment 부분 model은 어떤 필드를 포함하고 있어야 할까요? 어떤 관계로 Post, User와 맺어져야 할까요 
+
+--- 월요일 오전
+
 # CreateView - 객체를 생성하는 역할과 Form 양식을 모두 전담
+
 From 사용자(Client, Browser)
 
 v // - 우리의 db 양식대로 값을 입력받을 **input 태그**들이 필요합니다
-v // - input 태그들을 묶어서 한번에 전송해줄 **form**이 필요합니다 // CreateView가 다해줌
+v // - input 태그들을 묶어서 한번에 전송해줄 **form**이 필요합니다 // CreateView가 다해줌 : ~form.html을 찾아감
 v // - form을 보여줄 **Template**이 필요합니다(화면) ~~.html
-- 화면에 받은 정보를 Django Framework(백엔드 서버)에 보내줄 **url**이 필요합니다 (urls.py)
+v // - 화면에 받은 정보를 Django Framework(백엔드 서버)에 보내줄 **url**이 필요합니다 (urls.py)
 
 백엔드(Server)
 
-- 실행해줄 **함수**가 필요합니다.(views.py)
-- model이 우리가 사용하는 db의 언어로 통역을 해줄겁니다 (SQL 쿼리문을 만들 것) - **ORM 쿼리**
+v // - 실행해줄 **함수**가 필요합니다.(views.py)
+v // - model이 우리가 사용하는 db의 언어로 통역을 해줄겁니다 (SQL 쿼리문을 만들 것) - **ORM 쿼리**
 
-**DB**
+DB
 
-- SQL문으로 바뀌어서 데이터(튜플, 레코드) 한줄로 들어갈 겁니다
+v // - SQL문으로 바뀌어서 데이터(튜플, 레코드) 한줄로 들어갈 겁니다
 
 # 서치위젯을 완성하기 위해
 # Model : 1. Category Table에서 Category명만 가져옵니다
