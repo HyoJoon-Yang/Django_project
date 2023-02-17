@@ -1,4 +1,4 @@
-<div style="top:150px" class="col sticky-top">
+<div style="top: 200px;" class="col sticky-top">
     <!-- Search Widget -->
     <div class="card my-4">
         <h5 class="card-header">Search</h5>
@@ -13,20 +13,14 @@
     </div>
 
     <!-- Categories Widget -->
-    <div class="card my-4" id="categories-card">
+    <div class="card my-3" id="categories-card">
         <h5 class="card-header">Categories</h5>
-        <div class="card-body">
+        <div class="card-body m-3">
             <div class="row">
 
                 <ul>
                     {% for category in categories %}
                         <li>
-                            {%  comment %} 
-                            category.post_set.count : 
-                                장고에서는 ForeignKey로 참조된 데이터가 있을 때 
-                                클래스명.참조된테이블_set_count라는 변수로 
-                                총 몇개가 가고 있는지를 자동출력해줍니다 
-                            {% endcomment %}
                             <a href="{{ category.get_absolute_url }}">{{ category }} ({{ category.post_set.count }})</a>
                         </li>
                     {% endfor %}

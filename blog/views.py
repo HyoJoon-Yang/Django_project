@@ -2,6 +2,15 @@ from django.shortcuts import render  # Function Based View 를 사용했습니�
 from .models import Post, Category
 from django.views.generic import ListView # 게시판형으로 데이터를 가지고 오는 클래스 
 from django.views.generic.detail import DetailView
+from django.views.generic import CreateView
+
+class PostCreate(CreateView):
+    model = Post
+    fields = ['title', 'content', 'header_img', 'file_upload', 'category']
+    # tag -> #카지노 #카지노_행님_20만원만 unique=True : 여러개 달았을 때 이미 있는 해시태그는 더 등록되지 않도록 
+    # author -> 로그인 하는 순간부터 author 는 남아있기 때문에
+    # created_at -> 작성되는 순간 자동 등록  
+    # updated_at -> 수정되는 순간 자동 등록
 
 class BlogHome(ListView):
     model = Post
@@ -34,6 +43,8 @@ class PostList(ListView):  # post_list 라고 생긴 template과 model을 조합
         context = super(PostList, self).get_context_data(**kwargs)
         context['first_post'] = Post.objects.all().last() # first_post라는 이름으로 하나 더 값을 만들어서 전달할게요
         context['categories'] = Category.objects.all()
+        # 그냥 post_list.html에서 미분류의 개수를 세서 숫자를 표기해주기 위한 ORM 쿼리
+        context['no_category_post_count'] = Post.objects.filter(category=None).count() 
         # 필요한 값들을 ORM으로 뽑아서 가져올 수 있습니다.
         return context
 
@@ -56,15 +67,20 @@ class PostDetail(DetailView):  # post_detail 라고 생긴 template과 model을 
 def category_posts(request, slug):
     # 조건문을 완성해주세요 
     # 카테고리가 있으면 아래와 같이 
-    category = Category.objects.get(slug=slug)
-    posts = Post.objects.filter(category=category)
+    if slug == "no_category":
+        posts = Post.objects.filter(category=None)
+    else:
+        category = Category.objects.get(slug=slug)
+        posts = Post.objects.filter(category=category)
 
     # 카테고리가 없으면 None을 가지고 있는 값을 보냅니다.
     return render(
         request,
         'blog/post_list.html',
         {
-            'posts' : posts
+            'posts' : posts,
+            'categories' : Category.objects.all(),
+            'no_category_post_count' : Post.objects.filter(category=None).count()
             # 카테고리 위젯을 잘 완성시키기 위해 만들어야 되는 변수들
             # no_category 글의 개수 세기기 count()
             # Post.objects.filter(category=None)를 호출하도록 urls도 변경해야 할겁니다

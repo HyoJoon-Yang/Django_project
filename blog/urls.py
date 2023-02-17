@@ -19,5 +19,6 @@ urlpatterns = [
     # "blog" 라는 app의 "contact" 라는 별명으로 주소/blog/contact/를 호출할 수 있게 됩니다
     path('category/<str:slug>/', views.category_posts),
     # path('index2/', views.index2)  # 주소/blog/index2
+    path('create_post/', views.PostCreate.as_view()),
 ]
 

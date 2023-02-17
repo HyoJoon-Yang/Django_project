@@ -1,69 +1,45 @@
 {% extends 'blog/base.html' %}
 {% block page_area %}
-{% load static %}
 <style>
     .card img {
         aspect-ratio: 6/1;
         object-fit: cover;
     }
 </style>
-<body>
+    <div class="d-flex justify-content-between">
+        <div class="board">
+        {% for post in posts %}
+        <div class="card" style="width: 60vw;">
+            {% if post.header_img %}
+            <!-- .url : 미디어타입을 url 주소로 변환해서 출력해주는 역할 https:// /media/ ~~~  -->
+            <img src="{{ post.header_img.url }}" class="card-img-top" alt="...">
+            {% endif %}
 
-  <div class="post_list_main d-flex justify-content-between">
-    <div class="post_list_board">
-    {% for post in posts %}
-    <div class="card" style="width: 60rem;">
-        
-        {% if post.header_img %}
-        <!-- .url : 미디어타입을 url 주소로 변환해서 출력해주는 역할 https:// /media/ ~~~  -->
-        <img src="{{ post.header_img.url }}" class="card-img-top" alt="...">
-        {% endif %}
-
-        <div class="card-body">
-          <h5 class="card-title">{{post.pk }} {{ post.title }} </h5>
-          <p class="card-text">{{ post.created_at }} by {{ post.author }}</p>
-          <p class="card-text">{{ post.content }}</p>
-          <div class="card-last-line d-flex justify-content-between">
-            <span> 
-          {% if post.category %}
-              {{ post.category }}
-          {% else %}
-              미분류
-          {% endif %} </span>
-            <a href="#" class="btn btn-dark">더보기</a>
-          </div>
+            <div class="card-body">
+            <h5 class="card-title">{{ post.title }} </h5>
+            <p class="card-text d-flex justify-content-end">{{ post.created_at|date:'m. d. Y.' }} &nbsp; &nbsp; by {{ post.author }}</p>
+            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+            <div class="card-end d-flex justify-content-between">
+                {{ post.category }}  <p class="card-text"> 
+                <a href="{{ post.get_absolute_url }}" class="btn btn-dark">더보기</a> </p>
+            </div>
+            </div>
         </div>
-      </div>
-    {% endfor %}
+        {% endfor %}
 
-        <!-- {% for contact in page_obj %}
-        {# Each "contact" is a Contact model object. #}
-        {{ contact.full_name|upper }}<br>
-        ...
-    {% endfor %} -->
+        {# pagenation #}
 
-    <div class="pagination d-flex justify-content-center">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; 처음으로</a>
-                <a href="?page={{ page_obj.previous_page_number }}">이전페이지</a>
-            {% endif %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">Prev</a>
+        {% endif %}
+        Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+        {% if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">Next</a>
+        {% endif %}
+        </div>
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">다음페이지</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">마지막으로 &raquo;</a>
-            {% endif %}
-        </span>
+        <div class="widget">
+        {% include 'blog/search_widget.html' %}
+        </div>
     </div>
-    </div>
-
-    <div class="post_list_widget">
-    {% include 'blog/search_widget.html' %}
-    </div>
-  </div>
-    {% endblock %}
-
+{% endblock %}
