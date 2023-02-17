@@ -9,9 +9,9 @@ app_name = "blog"
 
 # blog 앱 내부 경로를 지정하는 부분
 urlpatterns = [
-    path('', views.BlogHome.as_view(), name="home"),
+    path('', views.BlogHome.as_view(paginate_by=5), name="home"),
     # paginate_by=개수
-    path('post_list/', views.PostList.as_view(paginate_by=5), name="post_list"), # '' : blog 뒤에 달린 주소가 없음을 의미함 
+    path('post_list/', views.PostList.as_view(), name="post_list"), # '' : blog 뒤에 달린 주소가 없음을 의미함 
     path('<int:pk>/', views.PostDetail.as_view()),
     path('about/', views.about_me, name="about_me"), # name="별명" // Alias
     path('contact/', views.contact, name="contact"),  
