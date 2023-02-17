@@ -3,14 +3,26 @@
 {% load static %}
 <style>
     .card img {
-        aspect-ratio: 4/1;
+        aspect-ratio: 6/1;
         object-fit: cover;
+    }
+    .card-title {
+        margin-bottom: 0.5rem;
+    }
+    .card-text {
+        margin-bottom: 1rem;
+    }
+    .btn-primary {
+        background-color: black;
+        border-color: black;
     }
 </style>
 <body>
 
+  <div class="post_list_main d-flex justify-content-between">
+    <div class="post_list_board">
     {% for post in posts %}
-    <div class="card" style="width: 40rem;">
+    <div class="card" style="width: 60rem;">
         
         {% if post.header_img %}
         <!-- .url : 미디어타입을 url 주소로 변환해서 출력해주는 역할 https:// /media/ ~~~  -->
@@ -20,11 +32,24 @@
         {% endif %}
 
         <div class="card-body">
-          <h5 class="card-title">{{ post.pk }} {{ post.title }} </h5>
-          <p class="card-text">{{ post.created_at }}</p>
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">by {{ post.author.username }} on {{ post.created_at }}</p>
           <p class="card-text">{{ post.content }}</p>
-          <a href="#" class="btn btn-primary">더보기</a>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <!-- 카테고리 버튼 -->
+              <button type="button" class="btn btn-sm btn-outline-secondary">카테고리</button>
+            </div>
+            <!-- 더보기 버튼 -->
+            <a href="#" class="btn btn-sm btn-primary">더보기</a>
+          </div>
         </div>
       </div>
     {% endfor %}
-    {% endblock %}
+    </div>
+
+    <div class="post_list_widget">
+    {% include 'blog/search_widget.html' %}
+    </div>
+  </div>
+{% endblock %}

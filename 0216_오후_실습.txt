@@ -1,8 +1,9 @@
 내일 오전 9시 10분까지
-# 1. 지금까지 사용했던 post_list.html은 blog_home.html로 파일명을 변경해주세요(blog home 버튼을 누르면 이 페이지가 연결됩니다) 
-# 2. 우리가 첫날 만들었던 게시판 파일(old_post_list.html)을 post_list.html로 이름을 변경하고, 
-# 3. blog_home.html에서 'More News'를 클릭했을 때 우리가 첫날 만들었던 게시판으로 이동합니다.
-# 4. post_list.html은 search_widget.html을 상속받아서 게시판 옆에 검색창과 카테고리를 우리에게 보여줍니다. 
+v # 1. 지금까지 사용했던 post_list.html은 blog_home.html로 파일명을 변경해주세요
+v # (blog home 버튼을 누르면 이 페이지가 연결됩니다) 
+v # 2. 우리가 첫날 만들었던 게시판 파일(old_post_list.html)을 post_list.html로 이름을 변경하고, 
+v # 3. blog_home.html에서 'More News'를 클릭했을 때 우리가 첫날 만들었던 게시판으로 이동합니다.
+v # 4. post_list.html은 search_widget.html을 상속받아서 게시판 옆에 검색창과 카테고리를 우리에게 보여줍니다. 
 
 
 
