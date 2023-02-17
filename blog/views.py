@@ -52,13 +52,27 @@ class PostDetail(DetailView):  # post_detail 라고 생긴 template과 model을 
         context['subject'] = context['object'].title 
         # 필요한 값들을 ORM으로 뽑아서 가져올 수 있습니다.
         return context
-    
+
 def category_posts(request, slug):
-    post = get_post(request, slug
+    # 조건문을 완성해주세요 
+    # 카테고리가 있으면 아래와 같이 
+    category = Category.objects.get(slug=slug)
+    posts = Post.objects.filter(category=category)
+
+    # 카테고리가 없으면 None을 가지고 있는 값을 보냅니다.
     return render(
         request,
         'blog/post_list.html',
+        {
+            'posts' : posts
+            # 카테고리 위젯을 잘 완성시키기 위해 만들어야 되는 변수들
+            # no_category 글의 개수 세기기 count()
+            # Post.objects.filter(category=None)를 호출하도록 urls도 변경해야 할겁니다
+
+        }
+
     )
+
 
 def about_me(request):
     return render(

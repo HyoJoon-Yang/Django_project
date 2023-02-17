@@ -1,15 +1,13 @@
 # 서치위젯을 완성하기 위해
 # Model : 1. Category Table에서 Category명만 가져옵니다
 Category.objects.all()
-
 v # View : 2. search_widget.html 의 Categories 항목에 1 목록을 보여줍니다
 - get_context_text()를 오버라이딩 해서 별개의 속성을 달아줘야 할 것 같아요
+v # Model에 함수를 만들고 Template에 해당 함수가 연결되도록 합니다: 
+v # 3. 각 항목을 클릭할 때마다 해당 카테고리에 있는 글들이 호출됩니다 
+v # 저 버튼 클릭시 화면단은 어떻게 구성할 것인가?????? -> 쿼리셋QuerySet을 가져와서 post_list.html을 재활용해서 뿌릴거에요.
 
-v- # Model에 함수를 만들고 Template에 해당 함수가 연결되도록 합니다: 
-?? # 3. 각 항목을 클릭할 때마다 해당 카테고리에 있는 글들이 호출됩니다 
-# 저 버튼 클릭시 화면단은 어떻게 구성할 것인가?????? -> 쿼리셋QuerySet을 가져와서 post_list.html을 재활용해서 뿌릴거에요.
-
-12시 25분에 같이 볼게요
+# 미분류 부분을 완성해주세요
 
 
 v # 1. 이미지가 있으면 보이고 없으면 안보이게
