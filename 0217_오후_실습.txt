@@ -1,0 +1,44 @@
+# 서치위젯을 완성하기 위해
+# Model : 1. Category Table에서 Category명만 가져옵니다
+Category.objects.all()
+
+v # View : 2. search_widget.html 의 Categories 항목에 1 목록을 보여줍니다
+- get_context_text()를 오버라이딩 해서 별개의 속성을 달아줘야 할 것 같아요
+
+v- # Model에 함수를 만들고 Template에 해당 함수가 연결되도록 합니다: 
+?? # 3. 각 항목을 클릭할 때마다 해당 카테고리에 있는 글들이 호출됩니다 
+# 저 버튼 클릭시 화면단은 어떻게 구성할 것인가?????? -> 쿼리셋QuerySet을 가져와서 post_list.html을 재활용해서 뿌릴거에요.
+
+12시 25분에 같이 볼게요
+
+
+v # 1. 이미지가 있으면 보이고 없으면 안보이게
+v # 2. 글의 번호는 삭제
+v # 3. 시간 옆에 by 작성자명
+v # 카테고리와 더보기가 한줄에 놓입니다
+v # 카데코리는 왼쪽정렬, 더보기 버튼은 오른쪽 정렬
+v # 버튼은 검은색
+
+
+내일 오전 9시 10분까지
+v # 1. 지금까지 사용했던 post_list.html은 blog_home.html로 파일명을 변경해주세요
+v # (blog home 버튼을 누르면 이 페이지가 연결됩니다) 
+v # 2. 우리가 첫날 만들었던 게시판 파일(old_post_list.html)을 post_list.html로 이름을 변경하고, 
+v # 3. blog_home.html에서 'More News'를 클릭했을 때 우리가 첫날 만들었던 게시판으로 이동합니다.
+v # 4. post_list.html은 search_widget.html을 상속받아서 게시판 옆에 검색창과 카테고리를 우리에게 보여줍니다. 
+
+
+
+오후 3시 15분까지
+v # 최종적으로 admin에서 Tags 항목을 우리가 손볼 수 있어야 할 거고요 
+v # 그래서 나온 태그를 post_detail.html에서 출력되도록 만들어주세요
+
+오후 2시 10분까지
+v # 1. post_detail.html에서 Category 가 뜨도록 해주세요
+v # 2. Category 가 없으면 미분류 라는 글자가 뜨도록 해주세요 
+v # 3. 파일이 있으면 다운로드 버튼 옆에 해당 파일의 확장자가 출력되도록 해주세요. split('.')
+
+10시
+v # 누가 작성했는지 저(admin) 게시판에서 보고 싶어요
+v # 작성시간 옆에 by USERID 나왔으면 좋겠어요 
+v # 첫번째포스트에서 더보기 옆에 by USERID 나왔으면 좋겠어요

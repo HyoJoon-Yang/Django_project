@@ -22,8 +22,8 @@ class PostList(ListView):  # post_list 라고 생긴 template과 model을 조합
     model = Post
     ordering = '-pk' 
     paginate_by = 5 # n개씩 잘라서 data(record)를 전송해주는 속성. views.py에서도, urls.py도 줄 수 있습니다
-    paginate_orphans = 2 # 자투리 101개 있음 -> 5개씩 값을 꺼내오면 마지막 남는 1개(orphan)가 있음...
-                        # 디자인 깨지지 않게 5개씩 꺼내올 때 값이 2개 이하이면 걍 붙여버려
+    paginate_orphans = 3 # 자투리 101개 있음 -> 5개씩 값을 꺼내오면 마지막 남는 1개(orphan)가 있음...
+                        # 디자인 깨지지 않게 5개씩 꺼내올 때 값이 2개 이하이면 마지막 페이지에 걍 붙여버려
 
     # post_list에 전달할 전체 객체명을 바꿔줍니다.
     context_object_name = 'posts'
@@ -52,6 +52,13 @@ class PostDetail(DetailView):  # post_detail 라고 생긴 template과 model을 
         context['subject'] = context['object'].title 
         # 필요한 값들을 ORM으로 뽑아서 가져올 수 있습니다.
         return context
+    
+def category_posts(request, slug):
+    post = get_post(request, slug
+    return render(
+        request,
+        'blog/post_list.html',
+    )
 
 def about_me(request):
     return render(
