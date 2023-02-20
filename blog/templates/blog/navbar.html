@@ -26,6 +26,45 @@
                                 </ul>
                             </li>
                         </ul>
+                        <ul class="navbar-nav ml-auto">
+                            {% if user.is_authenticated %}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-secondary fw-bold"> <a href="{% url 'blog:update' %}">{{ user.username }}</a> &nbsp</span>
+                                        <a class="btn btn-secondary" href="/accounts/logout/" role="button">로그아웃</a> &nbsp
+                                        <form action="{% url 'blog:delete' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-secondary" value="회원탈퇴">
+                                        </form>
+                                    </div>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                로그인
+                              </button>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
             </nav>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fs-5" id="loginModalLabel">로그인</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                    {# 구글 OAuth #}
+                                    {# <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Log in with Google</a><br /> #}
+                                    <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="/accounts/login/"><i class="far fa-envelope"></i>&nbsp&nbsp Log in with E-mail</a><br />
+                                    <a role="button" class="btn-dark btn-block btn-sm" href="/accounts/signup/"><i class="far fa-envelope"></i>&nbsp&nbsp Sign Up with E-mail</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            

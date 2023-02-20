@@ -1,9 +1,11 @@
 from django.contrib import admin
-from .models import Post, Category, Tag  # 현재 경로의 models.py 안에 있는 Post를 가져다 쓰겠음 
+from .models import Post, Category, Tag, Comment  # 현재 경로의 models.py 안에 있는 Post를 가져다 쓰겠음 
 
 # Register your models here.
 admin.site.register(Post)
 
+# 왜 Comment는 Post와 함께 관리되지 않을까요 
+admin.site.register(Comment)
 # prepopulated_fields 
 # categoryName input 필드에 들어오는 값을 slug 필드에 URL에서 사용할 수 있는 방식으로 옮겨서 넣어줘서 필터링해주는 파라미터
 class CategoryAdmin(admin.ModelAdmin):

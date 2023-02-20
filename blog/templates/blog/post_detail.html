@@ -23,6 +23,9 @@
                                 <!-- Post header-->
                                 <header class="mb-4">
                                     <!-- Post title-->
+                                    {% if user.is_authenticated and user == post.author %}
+                                    <a class="btn btn-dark" role="button" href="/blog/update_post/{{ post.pk }}"> 수정 </a>
+                                    {% endif %}
                                     <h1 class="fw-bolder mb-1">{{ subject }}</h1>
                                     <!-- Post meta content-->
                                     <div class="text-muted fst-italic mb-2">{{ post.created_at }}</div>
@@ -32,7 +35,7 @@
                                     {% if post.tag %}
                                     {% for ta in post.tag.all %}
                                     {# {% for ta in post.tag.iterator %} #}
-                                        <a href="#" class="">{{ ta }}</a>
+                                        <a href="{{ ta.get_absolute_url }}" class="">{{ ta }} ({{ ta.post_set.count }})</a>
                                     {% endfor %}
    
                                     <br/>
@@ -58,43 +61,78 @@
                             <section>
                                 <div class="card bg-light">
                                     <div class="card-body">
-                                        <!-- Comment form-->
-                                        <form class="mb-4"><textarea class="form-control" rows="3" placeholder="Join the discussion and leave a comment!"></textarea></form>
-                                        <!-- Comment with nested comments-->
-                                        <div class="d-flex mb-4">
-                                            <!-- Parent comment-->
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.
-                                                <!-- Child comment 1-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
-                                                    </div>
-                                                </div>
-                                                <!-- Child comment 2-->
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        When you put money directly to a problem, it makes a good headline.
-                                                    </div>
+                                        {% if user.is_authenticated %}
+                                        <!-- Comment form 글쓰기 폼 : 작성완료 버튼 클릭시 {{ post.get_absolute_url }}new_comment/ 이 url로 지금 가지고 있는 데이터를 달아서 전송합니다-->
+                                            <form  class="mb-4" method="post" action="{{ post.get_absolute_url }}new_comment/"> {% csrf_token %}
+                                                {{ comment_form }}
+                                            <button type="submit" class="btn btn-dark float-right">작성완료</button>
+                                        {# 로그인하지 않은 상태면 로그인해야 댓글을 달 수 있습니다 라고 안내메시지를 띄울게요#}
+                                            
+                                        {% endif %}
+                                        </form>
+                                        <!-- Comment with nested comments
+                                        여러개가 묶음으로 올겁니다 -->
+                            
+                                        {% if post.comment_set.exists %}
+                                        {% for comment in post.comment_set.iterator %}
+                                            <!-- Single Comment -->
+                                            <div class="d-flex align-items-center" id="comment-{{ comment.pk }}">
+                                                {# <img class="d-flex rounded-circle" src="{{ comment.get_avatar_url }}" alt="{{ comment.author }}" width="60px"> #}
+                                                <div class="flex-grow-1 ms-3">
+                                                    {% if user.is_authenticated and comment.author == user %}
+                                                        <div class="float-right">
+                                                            <a role="button"
+                                                               class="btn btn-sm btn-secondary"
+                                                               id="comment-{{ comment.pk }}-update-btn"
+                                                               href="/blog/update_comment/{{ comment.pk }}/">
+                                                                수정
+                                                            </a>
+                                                            <a role="button"
+                                                               href="#"
+                                                               id="comment-{{ comment.pk }}-delete-modal-btn"
+                                                               class="btn btn-sm btn-danger"
+                                                               data-bs-toggle="modal" data-bs-target="#deleteCommentModal-{{ comment.pk }}">
+                                                                삭제
+                                                            </a>
+                                                        </div>
+                            
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="deleteCommentModalLabel">정말 삭제하나요?</h5>
+                                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <del>{{ comment | linebreaks }}</del>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                                                        <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">삭제</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                            
+                                                    {% endif %}
+                                                    <h5 class="mt-0">
+                                                        {{ comment.author.username }}
+                                                        &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small>
+                                                    </h5>
+                                                    <p>{{ comment.content | linebreaks }}</p>
+                                                    {# 밀리세컨드 단위로 값이 들어가기 때문에 조금 러프한 비교가 필요합니다. #}
+                                                    {% if comment.created_at|date:'Y-m-d H:i' != comment.updated_at|date:'Y-m-d H:i' %}
+                                                        <p class="text-muted float-right"><small>Updated: {{ comment.updated_at }}</small></p>
+                                                    {% endif %}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- Single comment-->
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                                            </div>
-                                        </div>
-                                    </div>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
+                            </div>
                             </section>
                         </div>
                     </div>

@@ -1,12 +1,53 @@
+# 회원가입
+# 회원로그인 
+# 회원탈퇴
 
-# tag를 클릭하면 post_list를 재활용한 각 태그별 글이 검색되도록(쿼리로 db에서 가져와서 화면에 렌더링되도록) 로직을 짜 주세요. 
+# 그룹단위, 사용자단위
+# navbar.html -> 로그아웃시 로그인버튼 // v
+              -> 로그인시 id 및 로그아웃 버튼 // v
 
-# blog/tag/ 여차저차 로 호출하게 합니다.
-# hiphop(3)
+# post_list.html -> 로그인시 글 수정, 삭제 // v
+                 -> 댓글 수정, 삭제 // v
 
-# Comment 부분 model은 어떤 필드를 포함하고 있어야 할까요? 어떤 관계로 Post, User와 맺어져야 할까요 
+# post_detail.html -> 로그인시 글 수정 // v
+                                -> M  - Post
+                                   T  - post_form.html
+                                   V  - LoginRequiredMixin으로 세션 확인 후 UpdateView를 상속
+                                         - urls.py : 새글과 달리 update_post/글번호 로 해당 글을 먼저 받아와서
+                                                     수정함
+                      로그인시 댓글 쓰기 // v
+                       
+
+
+# 그외 검색창 완성 필요
+
+-- 오후 12시 10분
+v #  COMMENT에 대해 Template, View, Url을 완성해서 admin에서 입력한 댓글이 해당 글에 출력되도록 보완해보세요
+v # admin에서 COMMENT 확인해보시고 POST와 같이 관리되고 있는지 어떻게해야 관리될지 고민해보세요
 
 --- 월요일 오전
+v # tag를 클릭하면 post_list를 재활용한 각 태그별 글이 검색되도록
+    (쿼리로 db에서 가져와서 화면에 렌더링되도록) 로직을 짜 주세요. 
+v # blog/tag/ 여차저차 로 호출하게 합니다.
+v # hiphop(3)
+v # Comment 부분 model은 어떤 필드를 포함하고 있어야 할까요? 어떤 관계로 Post, User와 맺어져야 할까요 
+    # M - Comment 
+		field 
+		 	User(fk)
+		 	post(fk)
+		 	content
+		 	created_at
+		 	updated_at
+
+# T - post_detail.html 
+ 
+# V - C, R, U, D 
+
+# URL 
+http://localhost:8000/blog/9/create 
+
+
+
 
 # CreateView - 객체를 생성하는 역할과 Form 양식을 모두 전담
 
