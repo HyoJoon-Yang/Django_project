@@ -22,11 +22,12 @@
             <!-- .url : 미디어타입을 url 주소로 변환해서 출력해주는 역할 https:// /media/ ~~~  -->
             <img src="{{ post.header_img.url }}" class="card-img-top" alt="...">
             {% endif %}
-
             <div class="card-body">
-            <h5 class="card-title">{{ post.title }} </h5>
+            <h4 class="card-title"><strong>{{ post.title }}</strong></h4>
             <p class="card-text d-flex justify-content-end">{{ post.created_at|date:'m. d. Y.' }} &nbsp; &nbsp; by {{ post.author }}</p>
-            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+            <hr>
+            {# 템플릿필터에는 여러개조건도 |으로 걸 수 있습니다 #}
+            <p class="card-text">{{ post.get_content_markdown|safe|truncatewords:20 }}</p>
             <div class="card-end d-flex justify-content-between">
                 {{ post.category }}  <p class="card-text"> 
                 <a href="{{ post.get_absolute_url }}" class="btn btn-dark">더보기</a> </p>

@@ -1,4 +1,6 @@
-    {% extends 'blog/base.html' %}       
+    {% extends 'blog/base.html' %} 
+    {# 지금 자기 파일이 아닌 곳에서 무언가를 참조할 때는 맨 위에 걸어주시는 게 좋습니다. from ~  #}
+    {% load crispy_forms_tags %}      
     {% block page_area %}
             <!-- Page Content-->
             <section class="py-5">
@@ -49,7 +51,9 @@
                                 {% endif %}
                                     <!-- Post content-->
                                 <section class="mb-5">
-                                    <p class="fs-5 mb-4"> {{ post.content }}</p>
+                                    {# Post 클래스에 markdown으로 화면을 출력받도록 함수를 만들어 줍니다 #}
+                                    <p class="fs-5 mb-4"> {{ post.get_content_markdown|safe }}</p>  
+                                    <!-- <p class="fs-5 mb-4"> {{ post.content }}</p> -->
                                     {% if post.file_upload %}
                                     <a href="{{ post.file_upload.url }}" class="btn btn-dark">다운로드</a>
                                     {{ post.get_file_extension }}
@@ -64,7 +68,7 @@
                                         {% if user.is_authenticated %}
                                         <!-- Comment form 글쓰기 폼 : 작성완료 버튼 클릭시 {{ post.get_absolute_url }}new_comment/ 이 url로 지금 가지고 있는 데이터를 달아서 전송합니다-->
                                             <form  class="mb-4" method="post" action="{{ post.get_absolute_url }}new_comment/"> {% csrf_token %}
-                                                {{ comment_form }}
+                                                {{ comment_form|crispy }}
                                             <button type="submit" class="btn btn-dark float-right">작성완료</button>
                                         {# 로그인하지 않은 상태면 로그인해야 댓글을 달 수 있습니다 라고 안내메시지를 띄울게요#}
                                             

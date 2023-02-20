@@ -1,8 +1,10 @@
 from django.contrib import admin
 from .models import Post, Category, Tag, Comment  # 현재 경로의 models.py 안에 있는 Post를 가져다 쓰겠음 
+from markdownx.admin import MarkdownxModelAdmin
+
 
 # Register your models here.
-admin.site.register(Post)
+admin.site.register(Post, MarkdownxModelAdmin)
 
 # 왜 Comment는 Post와 함께 관리되지 않을까요 
 admin.site.register(Comment)

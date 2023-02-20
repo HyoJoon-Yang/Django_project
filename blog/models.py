@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdown
 
 # Category 클래스 구현
 # unique=True 전체 테이블에 해당 categoryName은 딱 1개만 만들어지도록 구현됩니다
@@ -37,7 +39,7 @@ class Tag(models.Model):
 class Post(models.Model):
     # 게시글에 필요한 필드: Primary Key, 제목, 내용, 작성일, 수정일, 작성자
     title = models.CharField(max_length=50)
-    content = models.TextField()
+    content = MarkdownxField()
 
     # upload_to= 경로
     # 어딘가 똑같은 폴더에 저장해주면 좋겠습니다
@@ -67,6 +69,9 @@ class Post(models.Model):
 
     def get_file_extension(self):
         return f'{self.file_upload}'.split('.')[-1]
+
+    def get_content_markdown(self):
+        return markdown(self.content)
 
    # 1. 모델에 함수를 추가해서 그 함수로 ORM을 뽑아낸다
    # 우리 의도: 전체 객체를 불러와서 그 중에 가장 최신글의 제목 뽑아내기

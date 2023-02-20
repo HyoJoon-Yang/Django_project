@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path("admin/", admin.site.urls),
     path('blog/', include('blog.urls')), # blog 폴더 안의 urls(.py)를 참조해줘 라는 뜻
+    path('markdownx/', include('markdownx.urls')),
 ]
 
 

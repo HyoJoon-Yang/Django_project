@@ -383,7 +383,7 @@ def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk) # 댓글을 달 포스트를 가져오거나 404 에러를 발생합니다.
     post = comment.post
     if request.user.is_authenticated and request.user == comment.author:
-        comment.delete()
+        comment.delete() # delete() 요청시 바로 삭제되도록 (즉시로딩) 구현되어있습니다
         return redirect(post.get_absolute_url())
     else:
         raise PermissionDenied
@@ -408,19 +408,22 @@ class PostSearch(PostList):
         return context
 
 
-@require_POST
+@require_POST # POST 접근
 def delete(request):
     if request.user.is_authenticated:
         request.user.delete()
-        auth_logout(request) # session 지우기. 단 탈퇴후 로그아웃순으로 처리. 먼저 로그아웃하면 해당 request 객체 정보가 없어져서 삭제가 안됨.
+        auth_logout(request) 
+        # session 지우기. -> 아니면 이미 로그인 되어있는 상태로 남아있어서 탈퇴된 회원이 여기저기 글을 쓰거나, 지우거나, 악플도 달 수 있음 
+        # 단 탈퇴후 로그아웃순으로 처리. 
+        # 먼저 로그아웃하면 해당 request 객체 정보(쿠키)가 없어져서 삭제가 안됨.
         return redirect('blog:home')
 
-@require_POST
-def logout(request) :
-    auth_logout(request)
+@require_POST 
+def logout(request):
+    auth_logout(request)  # 자체적으로 제공하는 기능 사용 
     return redirect('blog:home')
 
-
+# 데코레이터 - 데코레이터에 미리 지정해놓은 어떤 함수를 실행한 다음에 update 함수를 실행하도록
 @login_required
 def update(request) :
     if request.method == "POST" :

@@ -41,7 +41,16 @@ INSTALLED_APPS = [
     "blog",  # 맨 마지막 데이터에도 쉼표를 달아두면 좋은 점 
              # -> 다음에 추가 할 때 까먹어도 봐줌 
              # -> 추가되거나 제거된 코드 비교 할 때 보기 좋아서
+    "django_extensions",
+
+    # 게시판을 예쁘게 꾸며주기 위한 패키지
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "markdownx",
+
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

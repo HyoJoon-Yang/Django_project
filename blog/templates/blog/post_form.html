@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block page_area %}
 <p>
@@ -10,9 +11,8 @@
     {% endif %}
     <hr/>
 
-    <table>
     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-        {{ form }}
+        {{ form|crispy }}
         <div id="div_id_tags_str">
             <label for="id_tags_str">Tags</label>
             <input type="text" name="tags_str" id="id_tags_str" class="textinput textInput form-control" value="{{ tags_str_default }}">
@@ -20,6 +20,5 @@
 
         <button type="submit" class="btn btn-dark float-right">작성완료</button>
     </form>
-    </table>
-
+    {{ form.media }}
 {% endblock %}
