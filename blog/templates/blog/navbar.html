@@ -1,4 +1,4 @@
-
+{% load socialaccount %}
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
                 <div class="container px-5">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="modal-body">
                                     {# 구글 OAuth #}
-                                    {# <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Log in with Google</a><br /> #}
+                                    <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="{% provider_login_url 'google' %}"><i class="fab fa-google"></i>&nbsp&nbsp Log in with Google</a><br />
                                     <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="/accounts/login/"><i class="far fa-envelope"></i>&nbsp&nbsp Log in with E-mail</a><br />
                                     <a role="button" class="btn-dark btn-block btn-sm" href="/accounts/signup/"><i class="far fa-envelope"></i>&nbsp&nbsp Sign Up with E-mail</a>
                         </div>

@@ -48,7 +48,27 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "markdownx",
 
+    # all-auth 패키지
+     # The following apps are required:
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.google',
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
@@ -116,7 +136,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+# LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
 TIME_ZONE = "Asia/Seoul"
 
@@ -140,3 +161,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# SITE_ID = 1 # 배포할 때 site 중 n번째 사이트와 연결하겠다는 의미
+
+# ACCOUNT_EMAIL_REQUIRED = True  # 어느 필드까지 우선으로 받을 것인지
+# ACCOUNT_EMAIL_VERIFICATION = 'none' # 메일 인증 필요한 경우 받을 수 있음
+LOGIN_REDIRECT_URL = "/blog/"  # 로그인 후 'blog'로 이동 
+# -> 이유 blog의 views.py에 login, logout, update 등의 기능 모두 구현해놓았기 때문 
