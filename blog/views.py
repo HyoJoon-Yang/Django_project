@@ -23,6 +23,14 @@ from django.contrib.auth.decorators import login_required
 # 검색 - 장고 orm에서 쿼리문처럼 and나 or 조건을 쓰고 싶을때 사용할 수 있다.
 from django.db.models import Q
 
+# 오후실습: Swagger API 위한 DRF 구현
+from rest_framework import viewsets
+from .serializers import PostSerializer
+
+class BlogPostViewset(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
 # 화면 들어가서 확인 
 # Mixin을 앞에 넣어줘야 인증 먼저 하고 해당 페이지로 넘어감
 # LoginRequiredMixin은 사용자의 페이지에 로그인 되지 않은 다른 사용자가 접근하지 못하게 하고 로그인 페이지로 이동하게 하는 기능을 가지고 있는 클래스이다.

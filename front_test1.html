@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+</head>
+<body>
+    blogpost 전부 불러오기
+    <button type="button" onclick="crawl()">불러오기</button>
+    <div id="print"></div>
+    <script>
+        var id = document.querySelector('#print')
+
+        function crawl(){
+            fetch("http://localhost:8000/drf/drf/posts") 
+            // fetch("http://localhost:8000/blog/blog_posts/") // CORS 확인
+            .then((response) => response.json())
+						// .then((data) => {id.innerHTML = data});
+            .then((data) => {id.innerHTML = JSON.stringify(data)}); 
+            
+        }
+    </script>
+</body>
+</html>

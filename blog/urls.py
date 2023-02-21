@@ -1,5 +1,13 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
+
+# 오후 실습: SWAGGER API 추가
+from rest_framework import routers
+from . import views
+
+# 외부에서는 그냥 blog/posts로 접근하도록 라우팅 기능 추가
+router = routers.DefaultRouter()
+router.register(r'posts', views.BlogPostViewset) 
 
 # 전체 서비스에 지금 이 앱을 blog라고 부르기로 약속하는 것
 app_name = "blog"
@@ -9,6 +17,11 @@ app_name = "blog"
 
 # blog 앱 내부 경로를 지정하는 부분
 urlpatterns = [
+
+    # 오후 실습: Swagger API 
+    # 2개의 경로가 나온다면 본체의 urls.py에 있는 path('', include('blog.urls')), 때문입니다. 
+    re_path(r'^blog/',include(router.urls)),
+
     path('', views.BlogHome.as_view(paginate_by=5), name="home"),
     # paginate_by=개수: 속성들은 urls.py에서 호출할 때 아규먼트로 주거나 
     # views.py에서 디폴트 파라메터로 주면 됩니다.
